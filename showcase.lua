@@ -9,12 +9,16 @@ local function on_create_move(cmd)
 
 	local config_current_path = config.get_current_aimbot_config_path(weapon)
 
+	local anim = local_player:get_prop("DT_BaseAnimating", "m_flPoseParameter"):get_float_index(4)
+
+	--client.print("anim -> ".. anim)
+
 	--client.print("current weapon config is enabled -> ".. tostring(config.get_bool(config_current_path.."active")))
 end
 
 local function on_fsn(stage)
-	if stage == client_frame_stage.FRAME_START then
-		--client.print("current stage is FRAME_START")
+	if stage == client_frame_stage.FRAME_NET_UPDATE_END then
+		--client.print("frame_net_update_end")
 	end
 end
 
@@ -22,6 +26,8 @@ local variable = false
 local slider = 90
 local fakelag = 0
 local dropdown = 0
+local hfgjtytjtj_no_alpha = color.new(148, 255, 255, 255)
+local hfgjtytjtj_alpha = color.new(148, 255, 255, 255)
 
 local clicked_times = 0
 
@@ -47,6 +53,11 @@ local function on_menu_render()
 	menu.jump()
 
 	menu.add_text(string.format("Clicked: %s times", clicked_times))
+
+	menu.jump()
+
+	hfgjtytjtj_no_alpha = menu.add_color_picker("color picker##Tags Invisible##", hfgjtytjtj_no_alpha, false)
+	hfgjtytjtj_alpha = menu.add_color_picker("color picker##Other Tag##", hfgjtytjtj_alpha, true)
 end
 
 local tahoma_font = render.create_font("Tahoma Bold", 11, 300, 0, 0, 16) -- 16 flag is antialias, read on https://gitlab.com/FriskTheFallenHuman/SourceEngine2007/-/blob/master/src_main/public/vgui/ISurface.h#L230
