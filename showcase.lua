@@ -28,6 +28,7 @@ local fakelag = 0
 local dropdown = 0
 local hfgjtytjtj_no_alpha = color.new(148, 255, 255, 255)
 local hfgjtytjtj_alpha = color.new(148, 255, 255, 255)
+local multi_dropdown = { 1 }
 
 local clicked_times = 0
 
@@ -55,6 +56,8 @@ local function on_menu_render()
 	menu.add_text(string.format("Clicked: %s times", clicked_times))
 
 	menu.jump()
+
+	multi_dropdown = menu.add_multi_dropdown("test dropdown", multi_dropdown, "item 15\0item 25\0")
 
 	hfgjtytjtj_no_alpha = menu.add_color_picker("color picker##Tags Invisible##", hfgjtytjtj_no_alpha, false)
 	hfgjtytjtj_alpha = menu.add_color_picker("color picker##Other Tag##", hfgjtytjtj_alpha, true)
