@@ -28,7 +28,7 @@ local fakelag = 0
 local dropdown = 0
 local hfgjtytjtj_no_alpha = color.new(148, 255, 255, 255)
 local hfgjtytjtj_alpha = color.new(148, 255, 255, 255)
-local multi_dropdown = { 1 }
+local multi_dropdown = { 1 } -- { 1 } means 2nd element, { 0 } means 1st element
 
 local clicked_times = 0
 
