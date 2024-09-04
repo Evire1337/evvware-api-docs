@@ -63,19 +63,25 @@ local function on_menu_render()
 	hfgjtytjtj_alpha = menu.add_color_picker("color picker##Other Tag##", hfgjtytjtj_alpha, true)
 end
 
-local tahoma_font = render.create_font("Tahoma Bold", 11, 300, 0, 0, 16) -- 16 flag is antialias, read on https://gitlab.com/FriskTheFallenHuman/SourceEngine2007/-/blob/master/src_main/public/vgui/ISurface.h#L230
+local tahoma_structure = render.create_font("Tahoma Bold", 11, 300, 0, 0, 16) -- 16 flag is antialias, read on https://gitlab.com/FriskTheFallenHuman/SourceEngine2007/-/blob/master/src_main/public/vgui/ISurface.h#L230
 
 local function on_paint_traverse()
-	if tahoma_font ~= nil then
-		--client.print("font created! ".. tahoma_font, color.new(0, 255, 0, 255))
+	if tahoma_structure ~= nil then
+		--client.print("font created! ".. tahoma_structure.font, color.new(0, 255, 0, 255))
+
+		tahoma_structure:set_size(fakelag) -- set font size
+
+
+
 		render.filled_rect(100, 100, 200, 100, color.new(255, 255, 255, 255))
-		render.text(tahoma_font, 3, false, false, 180, 120, color.new(0, 0, 0, 255), "text type 1")
 
-		local text_size = render.get_text_size(tahoma_font, "text type 1")
+		render.text(tahoma_structure.font, 3, false, false, 180, 120, color.new(0, 0, 0, 255), "text type 1")
 
-		render.text(tahoma_font, 2, false, false, 180, 120 + text_size.y * 3, color.new(0, 0, 0, 255), "text type 2")
-		render.text(tahoma_font, 1, false, false, 180, 120 + text_size.y * 4, color.new(0, 0, 0, 255), "text type 3")
-		render.text(tahoma_font, 3, false, true, 180, 120 + text_size.y * 5, color.new(255, 255, 255, 255), "text type 4")
+		local text_size = render.get_text_size(tahoma_structure.font, "text type 1")
+
+		render.text(tahoma_structure.font, 2, false, false, 180, 120 + text_size.y * 3, color.new(0, 0, 0, 255), "text type 2")
+		render.text(tahoma_structure.font, 1, false, false, 180, 120 + text_size.y * 4, color.new(0, 0, 0, 255), "text type 3")
+		render.text(tahoma_structure.font, 3, false, true, 180, 120 + text_size.y * 5, color.new(255, 255, 255, 255), "text type 4")
 	end
 end
 
