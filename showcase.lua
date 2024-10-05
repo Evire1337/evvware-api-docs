@@ -30,6 +30,11 @@ local hfgjtytjtj_no_alpha = color.new(148, 255, 255, 255)
 local hfgjtytjtj_alpha = color.new(148, 255, 255, 255)
 local multi_dropdown = { 1 } -- { 1 } means 2nd element, { 0 } means 1st element
 
+local key_bind = c_key_bind.new(74, key_bind_mode.always) -- key indexes: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+
+-- 74 means in dec, 0x4A hex
+
+
 local clicked_times = 0
 
 local function on_menu_render()
@@ -58,6 +63,10 @@ local function on_menu_render()
 	menu.jump()
 
 	multi_dropdown = menu.add_multi_dropdown("test dropdown", multi_dropdown, "item 15\0item 25\0")
+
+	key_bind = menu.add_keybind("keybind test", key_bind)
+
+
 
 	hfgjtytjtj_no_alpha = menu.add_color_picker("color picker##Tags Invisible##", hfgjtytjtj_no_alpha, false)
 	hfgjtytjtj_alpha = menu.add_color_picker("color picker##Other Tag##", hfgjtytjtj_alpha, true)
