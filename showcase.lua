@@ -64,7 +64,7 @@ local function on_menu_render()
 
 	multi_dropdown = menu.add_multi_dropdown("test dropdown", multi_dropdown, "item 15\0item 25\0")
 
-	key_bind = menu.add_keybind("keybind test", key_bind)
+	key_bind = menu.add_keybind("keybind test", key_bind, "In Keybinds List")
 
 
 
@@ -75,7 +75,9 @@ end
 local tahoma_structure = render.create_font("Tahoma Bold", 11, 300, 0, 0, 16) -- 16 flag is antialias, read on https://gitlab.com/FriskTheFallenHuman/SourceEngine2007/-/blob/master/src_main/public/vgui/ISurface.h#L230
 
 local function on_paint_traverse()
-	if tahoma_structure ~= nil then
+	local keybind_data = key_bind:get_data()
+
+	if tahoma_structure ~= nil and keybind_data.toggle then
 		--client.print("font created! ".. tahoma_structure.font, color.new(0, 255, 0, 255))
 
 		tahoma_structure:set_size(fakelag) -- set font size
