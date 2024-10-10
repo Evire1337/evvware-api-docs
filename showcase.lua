@@ -30,9 +30,12 @@ local hfgjtytjtj_no_alpha = color.new(148, 255, 255, 255)
 local hfgjtytjtj_alpha = color.new(148, 255, 255, 255)
 local multi_dropdown = { 1 } -- { 1 } means 2nd element, { 0 } means 1st element
 
-local key_bind = c_key_bind.new(74, key_bind_mode.always) -- key indexes: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+
+local key_bind = c_key_bind.new("J", key_bind_mode.always) -- key indexes: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 
 -- 74 means in dec, 0x4A hex
+
+local key_bind_example = c_key_bind.new("J", key_bind_mode.always) -- key indexes: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 
 
 local clicked_times = 0
