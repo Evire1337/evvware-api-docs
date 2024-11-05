@@ -35,10 +35,20 @@ local key_bind = c_key_bind.new(74, key_bind_mode.always) -- key indexes: https:
 
 -- 74 means in dec, 0x4A hex
 
-local key_bind_example = c_key_bind.new("J", key_bind_mode.always)
+local key_bind_example = c_key_bind.new("J", key_bind_mode.always) -- key indexes: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+
+
+local menu_setting = menu_settings.new()
 
 
 local clicked_times = 0
+
+
+--config.add_config_data("bool_data_lua", "bool", false)
+
+local data, other_data = false, false
+local color_data = color.new(128, 255, 255, 255)
+
 
 local function on_menu_render()
 	menu.add_text("lua support")
@@ -73,6 +83,12 @@ local function on_menu_render()
 
 	hfgjtytjtj_no_alpha = menu.add_color_picker("color picker##Tags Invisible##", hfgjtytjtj_no_alpha, false)
 	hfgjtytjtj_alpha = menu.add_color_picker("color picker##Other Tag##", hfgjtytjtj_alpha, true)
+
+
+	menu_setting:add_checkbox_settings("first name", data)
+	other_data = menu_setting:add_data("hello", other_data)
+	color_data = menu_setting:add_data("color", color_data)
+	menu_setting:create()
 end
 
 local tahoma_structure = render.create_font("Tahoma Bold", 11, 300, 0, 0, 16) -- 16 flag is antialias, read on https://gitlab.com/FriskTheFallenHuman/SourceEngine2007/-/blob/master/src_main/public/vgui/ISurface.h#L230
@@ -97,6 +113,9 @@ local function on_paint_traverse()
 		render.text(tahoma_structure.font, 1, false, false, 180, 120 + text_size.y * 4, color.new(0, 0, 0, 255), "text type 3")
 		render.text(tahoma_structure.font, 3, false, true, 180, 120 + text_size.y * 5, color.new(255, 255, 255, 255), "text type 4")
 	end
+
+
+	client.add_esp_flag(esp_flag.new(true, esp_flag_position.bottom, "lua", color.new(255, 0, 0, 255)))
 end
 
 local function on_game_events(event)
