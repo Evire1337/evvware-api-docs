@@ -3,6 +3,24 @@ local function on_create_move(cmd)
 
 	if not local_player then return end
 
+
+	local start_position = local_player:origin()
+    	local end_position = vector3.new(100, 0, 0) 
+    
+
+	local new_ray = game_ray.new()
+    	new_ray:init(start_position, end_position)
+
+	local new_trace = game_trace.new()
+
+	local trace_filter = trace_filter_default.new(local_player)
+
+
+	client.print("before fraction -> ".. tostring(new_trace.fraction))
+	engine.trace_ray(new_ray, 1174421515, trace_filter, new_trace)
+	client.print("after fraction -> ".. tostring(new_trace.fraction))
+
+
 	local weapon = local_player:get_active_weapon()
 
 	if not weapon then return end
@@ -55,7 +73,7 @@ local function on_menu_render()
 
 	menu.jump()
 
-	variable = menu.add_checkbox("new checkbox", variable)
+	menu.add_checkbox("new checkbox", variable)
 
 	menu.jump()
 
