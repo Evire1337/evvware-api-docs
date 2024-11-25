@@ -73,7 +73,7 @@ local function on_menu_render()
 
 	menu.jump()
 
-	menu.add_checkbox("new checkbox", variable)
+	variable = menu.add_checkbox("new checkbox", variable)
 
 	menu.jump()
 
