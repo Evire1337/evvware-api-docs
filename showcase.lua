@@ -16,9 +16,9 @@ local function on_create_move(cmd)
 	local trace_filter = trace_filter_default.new(local_player)
 
 
-	client.print("before fraction -> ".. tostring(new_trace.fraction))
+	--client.print("before fraction -> ".. tostring(new_trace.fraction))
 	engine.trace_ray(new_ray, 1174421515, trace_filter, new_trace)
-	client.print("after fraction -> ".. tostring(new_trace.fraction))
+	--client.print("after fraction -> ".. tostring(new_trace.fraction))
 
 
 	local weapon = local_player:get_active_weapon()
@@ -111,6 +111,9 @@ end
 
 local tahoma_structure = render.create_font("Tahoma Bold", 11, 300, 0, 0, 16) -- 16 flag is antialias, read on https://gitlab.com/FriskTheFallenHuman/SourceEngine2007/-/blob/master/src_main/public/vgui/ISurface.h#L230
 
+
+local lua_esp_flag = esp_flag.new(esp_flag_position.bottom, "lua", color.new(255, 0, 0, 255))
+
 local function on_paint_traverse()
 	local keybind_data = key_bind:get_data()
 
@@ -133,7 +136,14 @@ local function on_paint_traverse()
 	end
 
 
-	client.add_esp_flag(esp_flag.new(true, esp_flag_position.bottom, "lua", color.new(255, 0, 0, 255)))
+	client.add_esp_flag(2, lua_esp_flag)
+
+	lua_esp_flag:modify_color(color.new(255, 255, 255, 255))
+	lua_esp_flag:modify_text("test")
+
+	client.add_esp_flag(3, lua_esp_flag)
+
+	--client.remove_esp_flag(2, lua_esp_flag:get_key())
 end
 
 local function on_game_events(event)
