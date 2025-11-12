@@ -13,7 +13,21 @@ local function on_create_move(cmd)
 
 	local new_trace = game_trace.new()
 
-	local trace_filter = trace_filter_default.new(local_player)
+	local box_min, box_max = client.get_hitbox_box(local_player, 12)
+
+	local hitbox_position = client.get_hitbox_position(local_player, 12)
+
+	client.print("hitbox position -> x".. hitbox_position.x .." y".. hitbox_position.y .." z".. hitbox_position.z)
+
+	client.print("box min -> x".. box_min.x .." y".. box_min.y .." z".. box_min.z)
+
+	client.print("box max -> x".. box_max.x .." y".. box_max.y .." z".. box_max.z)
+
+	local trace_filter = trace_filter_custom.new(function(ent, mask)
+		client.print("test")
+
+		return true
+	end)
 
 
 	--client.print("before fraction -> ".. tostring(new_trace.fraction))
@@ -29,6 +43,10 @@ local function on_create_move(cmd)
 
 	local anim = local_player:get_prop("DT_BaseAnimating", "m_flPoseParameter"):get_float_index(4)
 
+
+	--local movetype = local_player:move_type()
+
+	--client.print("movetype -> ".. movetype)
 	--client.print("anim -> ".. anim)
 
 	--client.print("current weapon config is enabled -> ".. tostring(config.get_bool(config_current_path.."active")))
@@ -115,6 +133,9 @@ local tahoma_structure = render.create_font("Tahoma Bold", 11, 300, 0, 0, 16) --
 local lua_esp_flag = esp_flag.new(esp_flag_position.bottom, "lua", color.new(255, 0, 0, 255))
 
 local function on_paint_traverse()
+	local local_player = entities.get_local_player()
+
+	if not local_player then return end
 	local keybind_data = key_bind:get_data()
 
 	if tahoma_structure ~= nil and keybind_data.toggle then
