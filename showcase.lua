@@ -1,3 +1,10 @@
+client.print("" .. _VERSION)
+client.print("jit loaded: " .. tostring(jit ~= nil))
+
+local ffi = require("ffi")
+client.print("ffi loaded: ".. tostring(jit ~= nil))
+
+
 local function on_create_move(cmd)
 	local local_player = entities.get_local_player()
 
@@ -17,15 +24,18 @@ local function on_create_move(cmd)
 
 	local hitbox_position = client.get_hitbox_position(local_player, 12)
 
-	client.print("hitbox position -> x".. hitbox_position.x .." y".. hitbox_position.y .." z".. hitbox_position.z)
+	--client.print("hitbox position -> x".. hitbox_position.x .." y".. hitbox_position.y .." z".. hitbox_position.z)
 
-	client.print("box min -> x".. box_min.x .." y".. box_min.y .." z".. box_min.z)
+	--client.print("box min -> x".. box_min.x .." y".. box_min.y .." z".. box_min.z)
 
-	client.print("box max -> x".. box_max.x .." y".. box_max.y .." z".. box_max.z)
+	--client.print("box max -> x".. box_max.x .." y".. box_max.y .." z".. box_max.z)
+
+	for i, player in ipairs(engine.get_active_players_data()) do
+		client.print("index: " .. tostring(player.index) .. " dormant: ".. tostring(player.dormant))
+	end
+
 
 	local trace_filter = trace_filter_custom.new(function(ent, mask)
-		client.print("test")
-
 		return true
 	end)
 
