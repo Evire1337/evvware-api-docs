@@ -4,6 +4,17 @@ client.print("jit loaded: " .. tostring(jit ~= nil))
 local ffi = require("ffi")
 client.print("ffi loaded: ".. tostring(jit ~= nil))
 
+ffi.cdef[[
+            int MessageBoxA(void* hWnd,
+                            const char* lpText,
+                            const char* lpCaption,
+                            unsigned int uType);
+        ]]
+
+        local user32 = ffi.load("user32")
+
+        user32.MessageBoxA(nil, "Hello from LuaJIT FFI!", "FFI Works", 0)
+
 
 local function on_create_move(cmd)
 	local local_player = entities.get_local_player()
@@ -62,80 +73,92 @@ local function on_create_move(cmd)
 	--client.print("current weapon config is enabled -> ".. tostring(config.get_bool(config_current_path.."active")))
 end
 
+
+local ui_manager = create_ui_manager()
+
+local new_frame = ui_manager:add_frame()
+local frame = ui_manager:add_frame()
+local frame_test = ui_manager:add_frame()
+
+frame_test:text("frame test")
+
+local checkbox1 = new_frame:add_checkbox("Hide Other Frame", false, function(v)
+	if v then
+		frame:hide()
+	else
+		frame:show()
+	end
+end)
+
+frame:show()
+
+local new_checkbox = frame:add_checkbox("Enable Slider Widget", false, function(v)
+	client.print(tostring(v))
+	if _G.test_callback then
+		_G.test_callback(v)
+	end
+end)
+
+frame:jump()
+
+frame:text("hello world!")
+frame:same_line()
+frame:button("test", vector2.new(50, 15))
+
+frame:space()
+
+frame:jump()
+
+
+local new_slider = frame:add_slider_int("Test slider", 0, 0, 100, function(v)
+	client.print("[slider int] changed to ".. tostring(v))
+end)
+
+local new_slider_float = frame:add_slider_float("Test slider 11", 0, 0, 100, function(v)
+	client.print("[slider float] changed to ".. tostring(v))
+end)
+
+new_slider_float:visible(false)
+
+_G.test_callback = function(v)
+	new_slider_float:visible(v)
+end
+
+frame:button("Created Button", vector2.new(200, 18), function()
+	client.print("clicked")
+end)
+
+local item_dropdown = frame:add_dropdown("Dropdown", 1 --[[1 means 2nd element]], "item 1\0item 2\0item 3\0", function(v)
+	client.print("[dropdown] changed to ".. tostring(v))
+end)
+
+local item_multi_dropdown = frame:add_multi_dropdown("Dropdown 123", {0, 2} --[[{ 0 } means 1st element, { 2 } means 3rd element]], "item 1\0item 2\0item 3\0", false, false, function(v)
+	client.print("[multi_dropdown] changed! (v is a table)")
+end)
+
+local item_color_picker = frame:add_color_picker("Color (No Alpha)", color.new(148, 255, 255, 255), false)
+
+local item_color_picker_alpha = frame:add_color_picker("Color (With Alpha)", color.new(148, 255, 255, 255), true)
+
+
+local keybind_1 = frame:add_keybind("Keybind 1", c_key_bind.new(74, key_bind_mode.always), "In Keybinds List")
+
+local keybind_2 = frame:add_keybind("Keybind 2", c_key_bind.new("J", key_bind_mode.always), "In Keybinds List 2", function(v)
+	client.print("[keybind] changed! (v is a c_key_bind)")
+end)
+
 local function on_fsn(stage)
 	if stage == client_frame_stage.FRAME_NET_UPDATE_END then
-		--client.print("frame_net_update_end")
+		client.print("".. tostring(variable:get_bool()))
 	end
 end
 
-local variable = false
-local slider = 90
-local fakelag = 0
-local dropdown = 0
-local hfgjtytjtj_no_alpha = color.new(148, 255, 255, 255)
-local hfgjtytjtj_alpha = color.new(148, 255, 255, 255)
-local multi_dropdown = { 1 } -- { 1 } means 2nd element, { 0 } means 1st element
-
-
-local key_bind = c_key_bind.new(74, key_bind_mode.always) -- key indexes: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
-
--- 74 means in dec, 0x4A hex
-
-local key_bind_example = c_key_bind.new("J", key_bind_mode.always) -- key indexes: https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
-
-
-local menu_setting = menu_settings.new()
-
-
-local clicked_times = 0
-
-
---config.add_config_data("bool_data_lua", "bool", false)
-
-local data, other_data = false, false
-local color_data = color.new(128, 255, 255, 255)
-
-
-local function on_menu_render()
-	menu.add_text("lua support")
-
-	menu.jump()
-
-	variable = menu.add_checkbox("new checkbox", variable)
-
-	menu.jump()
-
-	slider = menu.add_slider_float("slider float", slider, 0, 180)
-	fakelag = menu.add_slider_int("slider int", fakelag, 0, 180)
-	dropdown = menu.add_dropdown("dropdown int", dropdown, "item1\0item2\0item3\0")
-
-	menu.jump()
-
-	if menu.add_button("click me", vector2.new(200, 18)) == true then
-		clicked_times = clicked_times + 1
-	end
-
-	menu.jump()
-
-	menu.add_text(string.format("Clicked: %s times", clicked_times))
-
-	menu.jump()
-
-	multi_dropdown = menu.add_multi_dropdown("test dropdown", multi_dropdown, "item 15\0item 25\0")
-
-	key_bind = menu.add_keybind("keybind test", key_bind, "In Keybinds List")
-
-
-
-	hfgjtytjtj_no_alpha = menu.add_color_picker("color picker##Tags Invisible##", hfgjtytjtj_no_alpha, false)
-	hfgjtytjtj_alpha = menu.add_color_picker("color picker##Other Tag##", hfgjtytjtj_alpha, true)
-
-
+--[[local function on_menu_render()
 	menu_setting:add_checkbox_settings("first name", data)
 	other_data = menu_setting:add_data("hello", other_data)
 	color_data = menu_setting:add_data("color", color_data)
 	menu_setting:create()
-end
+end--]]
 
 local tahoma_structure = render.create_font("Tahoma Bold", 11, 300, 0, 0, 16) -- 16 flag is antialias, read on https://gitlab.com/FriskTheFallenHuman/SourceEngine2007/-/blob/master/src_main/public/vgui/ISurface.h#L230
 
@@ -146,9 +169,7 @@ local function on_paint_traverse()
 	local local_player = entities.get_local_player()
 
 	if not local_player then return end
-	local keybind_data = key_bind:get_data()
-
-	if tahoma_structure ~= nil and keybind_data.toggle then
+	if tahoma_structure ~= nil then
 		--client.print("font created! ".. tahoma_structure.font, color.new(0, 255, 0, 255))
 
 		tahoma_structure:set_size(fakelag) -- set font size
@@ -185,7 +206,6 @@ end
 
 
 client.register_callback("create_move", on_create_move)
-client.register_callback("menu_render", on_menu_render)
 client.register_callback("paint_traverse", on_paint_traverse)
 client.register_callback("frame_stage_notify", on_fsn)
 client.register_callback("game_event_listener", on_game_events)
