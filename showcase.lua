@@ -136,9 +136,9 @@ local item_multi_dropdown = frame:add_multi_dropdown("Dropdown 123", {0, 2} --[[
 	client.print("[multi_dropdown] changed! (v is a table)")
 end)
 
-local item_color_picker = frame:add_color_picker("Color (No Alpha)", color.new(148, 255, 255, 255), false)
+local item_color_picker = frame:add_color_picker("Color (No Alpha)", color.new(255, 255, 255, 255), false)
 
-local item_color_picker_alpha = frame:add_color_picker("Color (With Alpha)", color.new(148, 255, 255, 255), true)
+local item_color_picker_alpha = frame:add_color_picker("Color (With Alpha)", color.new(255, 0, 0, 255), true)
 
 
 local keybind_1 = frame:add_keybind("Keybind 1", c_key_bind.new(74, key_bind_mode.always), "In Keybinds List")
@@ -146,6 +146,31 @@ local keybind_1 = frame:add_keybind("Keybind 1", c_key_bind.new(74, key_bind_mod
 local keybind_2 = frame:add_keybind("Keybind 2", c_key_bind.new("J", key_bind_mode.always), "In Keybinds List 2", function(v)
 	client.print("[keybind] changed! (v is a c_key_bind)")
 end)
+
+local new_checkbox_settings = frame:add_checkbox_settings("Checkbox & Settings", false, function(v)
+	client.print(tostring(v))
+end)
+
+local checkbox_in_settings = new_checkbox_settings:add_checkbox("Checkbox Settings", false)
+
+local sliderint_in_settings = new_checkbox_settings:add_slider_int("Slider Int", 0, 0, 100, function(v)
+
+end)
+
+local sliderfloat_in_settings = new_checkbox_settings:add_slider_float("Slider Float", 0, 0, 100)
+
+local item_color_picker_in_settings = new_checkbox_settings:add_color_picker("Settings Color (No Alpha)", color.new(148, 255, 255, 255), false)
+
+local item_color_picker_alpha_in_settings = new_checkbox_settings:add_color_picker("Settings Color (Alpha)", color.new(148, 255, 255, 255), true)
+
+
+local keybind_1_in_settings = new_checkbox_settings:add_keybind("Settings Keybind 1", c_key_bind.new(74, key_bind_mode.always), "In Keybinds List")
+
+local keybind_2_in_settings = new_checkbox_settings:add_keybind("Settings Keybind 2", c_key_bind.new("J", key_bind_mode.always), "In Keybinds List 2", function(v)
+	client.print("[keybind] changed! (v is a c_key_bind)")
+end)
+
+
 
 local function on_fsn(stage)
 	if stage == client_frame_stage.FRAME_NET_UPDATE_END then
