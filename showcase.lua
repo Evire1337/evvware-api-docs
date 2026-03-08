@@ -170,7 +170,7 @@ local keybind_1_in_settings = new_checkbox_settings:add_keybind("Settings Keybin
 
 local keybind_2_in_settings = new_checkbox_settings:add_keybind("Settings Keybind 2", c_key_bind.new("J", key_bind_mode.always), "In Keybinds List 2")
 
-local item_dropdown_in_settings = new_checkbox_settings:add_dropdown("Settings Dropdown##TES1##", 2 --[[1 means 2nd element]], "item 1\0item 2\0item 3\0")
+local item_dropdown_in_settings = new_checkbox_settings:add_dropdown("Settings Dropdown##TES1##", 2 --[[2 means 3rd element]], "item 1\0item 2\0item 3\0")
 
 local item_multi_dropdown_in_settings = new_checkbox_settings:add_multi_dropdown("Settings Dropdown##TEST##", {1, 2} --[[{ 1 } means 2nd element, { 2 } means 3rd element]], "item 1\0item 2\0item 3\0", false, false)
 
