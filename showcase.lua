@@ -110,9 +110,11 @@ frame:space()
 frame:jump()
 
 
-local new_slider = frame:add_slider_int("Test slider", 0, 0, 100, function(v)
+local new_slider = frame:add_slider_int("Test slider", 45, 0, 100, function(v)
 	client.print("[slider int] changed to ".. tostring(v))
 end)
+
+client.print("slider int value is ".. tostring(new_slider:get_int()))
 
 local new_slider_float = frame:add_slider_float("Test slider 11", 0, 0, 100, function(v)
 	client.print("[slider float] changed to ".. tostring(v))
@@ -153,11 +155,11 @@ end)
 
 local checkbox_in_settings = new_checkbox_settings:add_checkbox("Checkbox Settings", false)
 
-local sliderint_in_settings = new_checkbox_settings:add_slider_int("Slider Int", 0, 0, 100, function(v)
+local sliderint_in_settings = new_checkbox_settings:add_slider_int("Slider Int", 6, 0, 100)
 
-end)
+client.print("slider int in settings value is ".. tostring(sliderint_in_settings:get_int()))
 
-local sliderfloat_in_settings = new_checkbox_settings:add_slider_float("Slider Float", 0, 0, 100)
+local sliderfloat_in_settings = new_checkbox_settings:add_slider_float("Slider Float", 10, 0, 100)
 
 local item_color_picker_in_settings = new_checkbox_settings:add_color_picker("Settings Color (No Alpha)", color.new(148, 255, 255, 255), false)
 
@@ -166,10 +168,11 @@ local item_color_picker_alpha_in_settings = new_checkbox_settings:add_color_pick
 
 local keybind_1_in_settings = new_checkbox_settings:add_keybind("Settings Keybind 1", c_key_bind.new(74, key_bind_mode.always), "In Keybinds List")
 
-local keybind_2_in_settings = new_checkbox_settings:add_keybind("Settings Keybind 2", c_key_bind.new("J", key_bind_mode.always), "In Keybinds List 2", function(v)
-	client.print("[keybind] changed! (v is a c_key_bind)")
-end)
+local keybind_2_in_settings = new_checkbox_settings:add_keybind("Settings Keybind 2", c_key_bind.new("J", key_bind_mode.always), "In Keybinds List 2")
 
+local item_dropdown_in_settings = new_checkbox_settings:add_dropdown("Settings Dropdown##TES1##", 2 --[[1 means 2nd element]], "item 1\0item 2\0item 3\0")
+
+local item_multi_dropdown_in_settings = new_checkbox_settings:add_multi_dropdown("Settings Dropdown##TEST##", {1, 2} --[[{ 1 } means 2nd element, { 2 } means 3rd element]], "item 1\0item 2\0item 3\0", false, false)
 
 
 local function on_fsn(stage)
