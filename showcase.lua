@@ -23,24 +23,26 @@ local function on_create_move(cmd)
 
 
 	local start_position = local_player:origin()
-    	local end_position = vector3.new(100, 0, 0) 
+    local end_position = vector3.new(100, 0, 0) 
     
 
 	local new_ray = game_ray.new()
-    	new_ray:init(start_position, end_position)
+    new_ray:init(start_position, end_position)
 
 	local new_trace = game_trace.new()
+
 
 	local box_min, box_max = client.get_hitbox_box(local_player, 12)
 
 	local hitbox_position = client.get_hitbox_position(local_player, 12)
 
-	--client.print("hitbox position -> x".. hitbox_position.x .." y".. hitbox_position.y .." z".. hitbox_position.z)
+	--client.print("hitbox position -> ".. tostring(hitbox_position))
 
-	--client.print("box min -> x".. box_min.x .." y".. box_min.y .." z".. box_min.z)
+	--client.print("box min -> " .. tostring(box_min))
 
-	--client.print("box max -> x".. box_max.x .." y".. box_max.y .." z".. box_max.z)
+	--client.print("box max -> ".. tostring(box_max))
 
+	
 	for i, player in ipairs(engine.get_active_players_data()) do
 		client.print("index: " .. tostring(player.index) .. " dormant: ".. tostring(player.dormant))
 	end
@@ -64,11 +66,6 @@ local function on_create_move(cmd)
 
 	local anim = local_player:get_prop("DT_BaseAnimating", "m_flPoseParameter"):get_float_index(4)
 
-
-	--local movetype = local_player:move_type()
-
-	--client.print("movetype -> ".. movetype)
-	--client.print("anim -> ".. anim)
 
 	--client.print("current weapon config is enabled -> ".. tostring(config.get_bool(config_current_path.."active")))
 end
@@ -115,12 +112,16 @@ local new_slider = frame:add_slider_int("Test slider", 45, 0, 100, function(v)
 end)
 
 client.print("slider int value is ".. tostring(new_slider:get_int()))
+new_slider:set_int(100)
+client.print("NEW slider int value is ".. tostring(new_slider:get_int()))
 
-local new_slider_float = frame:add_slider_float("Test slider 11", 0, 0, 100, function(v)
+local new_slider_float = frame:add_slider_float("Test slider 11", 4.7, 0, 100, function(v)
 	client.print("[slider float] changed to ".. tostring(v))
 end)
 
-new_slider_float:visible(false)
+client.print("slider float value is ".. tostring(new_slider_float:get_float()))
+
+new_slider_float:visible(new_checkbox:get_bool())
 
 _G.test_callback = function(v)
 	new_slider_float:visible(v)
@@ -140,9 +141,18 @@ local item_multi_dropdown = frame:add_multi_dropdown("Dropdown 123", {0, 2} --[[
 	client.print("[multi_dropdown] changed! (v is a table)")
 end)
 
+local t = item_multi_dropdown:get_table()
+
+for i, v in pairs(t) do
+	client.print("[item_multi_dropdown] index ".. i ..", value ".. v)
+end
+
+
 frame:jump()
 
 local item_color_picker = frame:add_color_picker("Color (No Alpha)", color.new(255, 255, 255, 255), false)
+
+client.print(tostring(item_color_picker:get_color()))
 
 local item_color_picker_alpha = frame:add_color_picker("Color (With Alpha)", color.new(255, 0, 0, 255), true)
 
@@ -198,12 +208,14 @@ local function on_fsn(stage)
 	end
 end
 
---[[local function on_menu_render()
-	menu_setting:add_checkbox_settings("first name", data)
-	other_data = menu_setting:add_data("hello", other_data)
-	color_data = menu_setting:add_data("color", color_data)
-	menu_setting:create()
-end--]]
+
+local a_vector3 = vector3.new(10, 10, 10)
+local b_vector3 = vector3.new(5, 5, 5)
+
+local c_vector3 = a_vector3 + b_vector3
+client.print("Vector3 Result: ".. tostring(c_vector3))
+
+
 
 local tahoma_structure = render.create_font("Tahoma Bold", 11, 300, 0, 0, 16) -- 16 flag is antialias, read on https://gitlab.com/FriskTheFallenHuman/SourceEngine2007/-/blob/master/src_main/public/vgui/ISurface.h#L230
 
@@ -215,21 +227,14 @@ local function on_paint_traverse()
 
 	if not local_player then return end
 	if tahoma_structure ~= nil then
-		--client.print("font created! ".. tahoma_structure.font, color.new(0, 255, 0, 255))
-
-		tahoma_structure:set_size(fakelag) -- set font size
-
-
-
 		render.filled_rect(100, 100, 200, 100, color.new(255, 255, 255, 255))
 
-		render.text(tahoma_structure.font, 3, false, false, 180, 120, color.new(0, 0, 0, 255), "text type 1")
 
 		local text_size = render.get_text_size(tahoma_structure.font, "text type 1")
 
-		render.text(tahoma_structure.font, 2, false, false, 180, 120 + text_size.y * 3, color.new(0, 0, 0, 255), "text type 2")
-		render.text(tahoma_structure.font, 1, false, false, 180, 120 + text_size.y * 4, color.new(0, 0, 0, 255), "text type 3")
-		render.text(tahoma_structure.font, 3, false, true, 180, 120 + text_size.y * 5, color.new(255, 255, 255, 255), "text type 4")
+		render.text(tahoma_structure.font, text_align_right, false, false, 180, 120 + text_size.y * 3, color.new(255, 0, 0, 255), "TEXT RIGHT")
+		render.text(tahoma_structure.font, text_align_left, false, false, 180, 120 + text_size.y * 4, color.new(0, 255, 0, 255), "TEXT LEFT")
+		render.text(tahoma_structure.font, text_align_center, false, true, 180, 120 + text_size.y * 5, color.new(255, 255, 255, 255), "TEXT CENTER")
 	end
 
 
