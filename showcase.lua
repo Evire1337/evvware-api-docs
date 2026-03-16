@@ -54,7 +54,7 @@ local function on_create_move(cmd)
 
 
 	--client.print("before fraction -> ".. tostring(new_trace.fraction))
-	engine.trace_ray(new_ray, 1174421515, trace_filter, new_trace)
+	engine.trace_ray(new_ray, MASK_SOLID, trace_filter, new_trace)
 	--client.print("after fraction -> ".. tostring(new_trace.fraction))
 
 
